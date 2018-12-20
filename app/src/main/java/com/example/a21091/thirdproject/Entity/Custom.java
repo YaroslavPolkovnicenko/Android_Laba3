@@ -21,6 +21,7 @@ public class Custom extends Figure implements Serializable{
     public Custom() {
 
         super();
+        flag=false;
         reinit();
     }
 
@@ -93,11 +94,6 @@ public class Custom extends Figure implements Serializable{
 
         this.points.add(new Coordinates((int)x,(int)y));
         reinit();
-    }
-
-    @Override
-    public void startAnimation(Canvas canvas) {
-
     }
 
     private void reinit(){

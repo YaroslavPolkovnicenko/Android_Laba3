@@ -14,6 +14,17 @@ import java.util.Map;
 public abstract class Figure implements Serializable {
 
     protected int r = 100;
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    protected boolean flag = false;
+    protected int dir = 0;
     protected int x;
     protected int y;
     protected int alpha;
@@ -49,35 +60,17 @@ public abstract class Figure implements Serializable {
 
                 a++;
 
-//            if(a > 3){
-
-//                a=0;
-
-//            }
-
                 return new Circle(x,y);
 
             case 1:
 
                 a++;
 
-//                if(a > 3){
-
-//                    a=0;
-
-//                }
-
                 return new Square(x,y);
 
             case 2:
 
                 a++;
-
-//                if(a > 3){
-
-//                    a=0;
-
-//                }
 
                 return new Triangle(x,y);
 
@@ -86,13 +79,10 @@ public abstract class Figure implements Serializable {
         a++;
 
         if(a > 3){
-
             a=0;
-
         }
 
         return new Circle(x,y);
-
     }
 
     public  Figure(){
@@ -161,6 +151,4 @@ public abstract class Figure implements Serializable {
     public abstract boolean onArea(float x, float y);
 
     public void addPointToCustomFigure(float x, float y) {};
-
-    public abstract void startAnimation(Canvas canvas);
 }

@@ -24,13 +24,12 @@ import java.util.List;
 
 public class DrawView extends View {
 
-    public enum State {DRAW, DRAG, SCALE_CHANGE, NEW_CIRCLE, NEW_SQUARE, NEW_TRIANGLE, NEW_DRAW};
+    public enum State {DRAW, DRAG, NEW_CIRCLE, NEW_SQUARE, NEW_TRIANGLE, NEW_DRAW};
     private State state = State.DRAW;
     private static volatile DrawView instance;
     private GestureDetectorCompat gestureDetector;
     private ScaleGestureDetector gestureScaleDetector;
     private Context context;
-    private Animation mEnlargeAnimation, mShrinkAnimation;
 
     List<Figure> figures = new ArrayList<>();
     Figure focusFigure;
@@ -76,50 +75,7 @@ public class DrawView extends View {
         MainScaleGestureDetector lsgd = new MainScaleGestureDetector();
 
         gestureScaleDetector = new ScaleGestureDetector(context, lsgd);
-
-        mEnlargeAnimation = AnimationUtils.loadAnimation(this.context, R.anim.enlarge);
-        mShrinkAnimation = AnimationUtils.loadAnimation(this.context, R.anim.shrink);
-        mEnlargeAnimation.setAnimationListener(animationEnlargeListener);
-        mShrinkAnimation.setAnimationListener(animationShrinkListener);
-
     }
-
-    Animation.AnimationListener animationEnlargeListener = new Animation.AnimationListener() {
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            // когда анимация увеличения заканчивается,
-            // то запускаем анимацию уменьшения
-            DrawView.getInstance().startAnimation(mShrinkAnimation);
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-        }
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-        }
-    };
-
-    Animation.AnimationListener animationShrinkListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            // когда анимация уменьшения заканчивается,
-            // то начинаем анимацию увеличения
-            Canvas canvas = new Canvas();
-            DrawView.getInstance().getFocusFigure().startAnimation(canvas);
-            DrawView.getInstance().invalidate();
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-        }
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-        }
-    };
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -216,15 +172,6 @@ public class DrawView extends View {
 
                     this.figures.get(this.figures.size() - 1).addPointToCustomFigure(e.getX(),e.getY());
                     state = State.DRAW;
-                }
-
-                if(DrawView.getInstance().getState() == DrawView.State.SCALE_CHANGE){
-
-                    //DrawView.getInstance().setState(DrawView.State.DRAW);
-                    Canvas canvas = new Canvas();
-                    DrawView.getInstance().getFocusFigure().startAnimation(canvas);
-                    //DrawView.getInstance().getFocusFigure().startAnimation(mEnlargeAnimation);
-                    //DrawView.getInstance().invalidate();
                 }
 
                 break;

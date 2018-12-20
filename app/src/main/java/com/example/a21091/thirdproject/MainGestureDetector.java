@@ -4,17 +4,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.widget.SeekBar;
 
-import com.example.a21091.thirdproject.DrawView;
-import com.example.a21091.thirdproject.Entity.Circle;
 import com.example.a21091.thirdproject.Entity.Figure;
-import com.example.a21091.thirdproject.Entity.Square;
 
 public class MainGestureDetector extends GestureDetector.SimpleOnGestureListener {
 
     @Override
-
     public boolean onDoubleTap(MotionEvent e) {
 
         int j = 0;
@@ -49,8 +44,7 @@ public class MainGestureDetector extends GestureDetector.SimpleOnGestureListener
             public void onClick(DialogInterface dialog, int which) {
 
                 if(which==0){
-                    DrawView.getInstance().setState(DrawView.State.SCALE_CHANGE);
-
+                    DrawView.getInstance().getFocusFigure().setFlag(true);
                 }
             }
         });

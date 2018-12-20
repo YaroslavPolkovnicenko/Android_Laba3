@@ -6,14 +6,14 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.view.animation.Animation;
 
+import com.example.a21091.thirdproject.DrawView;
+
 import java.io.Serializable;
 
 public class Circle extends Figure implements Serializable{
 
-    //private int r=100;
     private transient Path pathFigure;
     private transient Path pathBorder;
-    private transient Matrix matrix;
 
     public Circle(float x, float y) {
 
@@ -21,7 +21,8 @@ public class Circle extends Figure implements Serializable{
         this.x = (int)x;
         this.y = (int)y;
         r = 100;
-        Matrix matrix = new Matrix();
+        dir=0;
+        flag=false;
     }
 
     public Circle() {
@@ -35,6 +36,25 @@ public class Circle extends Figure implements Serializable{
             penInit();
         }
 
+        if(flag) {
+
+            if (dir == 0) {
+                if (r > 200) {
+                    dir = 1;
+                }
+                r += 1;
+                canvas.drawCircle(this.x, this.y, this.r, pen);
+            } else {
+                if (r == 100 && flag == true) {
+                    dir = 0;
+                    r = 100;
+                    flag = false;
+                }
+                r -= 1;
+                canvas.drawCircle(this.x, this.y, this.r, pen);
+            }
+        }
+
         canvas.drawCircle(this.x, this.y , this.r, pen);
 
         if (selected){
@@ -43,6 +63,7 @@ public class Circle extends Figure implements Serializable{
             r.set(this.x-this.r, this.y-this.r, this.x+this.r, this.y+this.r);
             canvas.drawRect(r, selectedPen);
         }
+        DrawView.getInstance().invalidate();
     }
 
     @Override
@@ -53,11 +74,6 @@ public class Circle extends Figure implements Serializable{
         }
 
         return false;
-    }
-
-    @Override
-    public void startAnimation(Canvas canvas) {
-
     }
 
     @Override
